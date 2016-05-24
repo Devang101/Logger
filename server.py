@@ -17,7 +17,7 @@ app = Flask(__name__, static_url_path='', static_folder='public')
 app.add_url_rule('/', 'root', lambda: app.send_static_file('index.html'))
 
 
-@app.route('/api/comments', methods=['GET', 'POST'])
+@app.route('/api/comments', methods=['GET', 'POST', 'REMOVE'])
 def comments_handler():
     with open('comments.json', 'r') as f:
         comments = json.loads(f.read())
@@ -26,6 +26,15 @@ def comments_handler():
         new_comment = request.form.to_dict()
         new_comment['id'] = int(time.time() * 1000)
         comments.append(new_comment)
+
+        with open('comments.json', 'w') as f:
+            f.write(json.dumps(comments, indent=4, separators=(',', ': ')))
+
+    if request.method == 'REMOVE':
+        id_toRemove = request.json;
+        print (id_toRemove);
+        #print (comments)
+        comments.remove(id_toRemove);
 
         with open('comments.json', 'w') as f:
             f.write(json.dumps(comments, indent=4, separators=(',', ': ')))
