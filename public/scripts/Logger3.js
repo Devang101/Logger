@@ -143,7 +143,7 @@ var LogRemoveForm = React.createClass({
 });
 
 ReactDOM.render(
-  (<div className="LogBox">
+  (<div className="LogList_And_Forms">
     <h1>Logs</h1>
     <LogList data={inputJSON}/>
     <LogForm/>
