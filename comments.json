@@ -19,5 +19,12 @@
         "Message": "b",
         "id": 1464112418349,
         "EventType": "b"
+    },
+    {
+        "EventSeverity": "a",
+        "Timestamp": "Wed May 25 2016 15:43:30 GMT-0500 (Central Daylight Time)",
+        "Message": "a",
+        "id": 1464209010351,
+        "EventType": "a"
     }
 ]

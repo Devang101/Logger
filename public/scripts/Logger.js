@@ -1,4 +1,27 @@
-var inputJSON = [];
+var inputJSON = [
+    {
+        "EventSeverity": "z",
+        "Timestamp": "Tue May 24 2016 12:52:46 GMT-0500 (Central Daylight Time)",
+        "Message": "z",
+        "id": 1464112366341,
+        "EventType": "z"
+    },
+    {
+        "EventSeverity": "a",
+        "Timestamp": "Tue May 24 2016 12:52:51 GMT-0500 (Central Daylight Time)",
+        "Message": "a",
+        "id": 1464112371356,
+        "EventType": "a"
+    },
+    {
+        "EventSeverity": "b",
+        "Timestamp": "Tue May 24 2016 12:53:38 GMT-0500 (Central Daylight Time)",
+        "Message": "b",
+        "id": 1464112418349,
+        "EventType": "b"
+    }
+];
+
 var get_log_entries = function() {
   return inputJSON;
 }
@@ -93,32 +116,32 @@ var LogRemoveForm = React.createClass({
   }
 });
 var LogBox = React.createClass({
-  loadLogs: function() {
-    this.setState({data: inputJSON});
-  },
   handleLogRemoveSubmit: function(id) {
-    var Logs = this.state.data;
-    console.log(get_log_entries());
-    for(var i=0; i<Logs.length; i++)
+    var newLogs = this.state.data.slice(); //copy currentLogs
+    var index =0;
+    for(var i=0; i<newLogs.length; i++) //find index of log_entry with input id
     {
-      if(Logs[i].id == id)
+      if(newLogs[i].id == id)
       {
-        delete Logs[i];
+        index=i;
         break;
       }
     }
-    inputJSON = Logs;
-    this.setState({data:Logs});
+    newLogs.splice(index, 1); //remoce object from log
+    console.log(get_log_entries());
+    inputJSON = newLogs;
+    this.setState({data:newLogs}); //set state to newLogs
  },
   handleLogSubmit: function(Log) {
     var Logs = this.state.data;
     Log.id = Date.now();
     var newLogs = Logs.concat([Log]);
     inputJSON = newLogs;
+    console.log(newLogs);
     this.setState({data: newLogs});
  },
   getInitialState: function() {
-    return {data: []};
+    return {data: this.props.data};
   },
   // componentDidMount: function() {
   //   this.loadLogsFromServer();
@@ -128,7 +151,7 @@ var LogBox = React.createClass({
     return (
       <div className="LogBox">
         <h1>Logs</h1>
-        <LogList data={this.state.data} />
+        <LogList data={this.state.data}/>
         <LogForm onLogSubmit={this.handleLogSubmit} />
         <LogRemoveForm onLogRemoveSubmit={this.handleLogRemoveSubmit}/>
       </div>
